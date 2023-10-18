@@ -91,6 +91,8 @@ def get_url_by_feature(context):
         feature_id = context.section_id
     elif context.feature_name == "comments":
         feature_id = context.comment_id
+    elif context.feature_name == "tasks":
+        feature_id = context.task_id
 
     url = f"{context.url}{context.feature_name}/{feature_id}"
 
@@ -109,6 +111,8 @@ def append_to_resources_list(context, response):
         context.section_list.append(response["body"]["id"])
     elif context.feature_name == "comments":
         context.comment_list.append(response["body"]["id"])
+    elif context.feature_name == "tasks":
+        context.task_list.append(response["body"]["id"])
 
 
 def get_data_by_feature(context):
@@ -122,6 +126,11 @@ def get_data_by_feature(context):
             dictionary["section_id"] = context.section_id
         if "project_id" in dictionary:
             dictionary["project_id"] = context.project_id
+    elif context.feature_name == "tasks":
+        if "task_id" in dictionary:
+            dictionary["task_id"] = context.task_id
+        if "project_id" in dictionary:
+            dictionary["project_id"] = context.project_id
     elif context.feature_name == "comments":
         if "comment_id" in dictionary:
             dictionary["comment_id"] = context.comment_id
@@ -129,6 +138,7 @@ def get_data_by_feature(context):
             dictionary["project_id"] = context.project_id
         if "task_id" in dictionary:
             dictionary["task_id"] = context.task_id
+
 
     LOGGER.debug("Dictionary created: %s", dictionary)
     return dictionary

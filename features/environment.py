@@ -25,6 +25,7 @@ def before_all(context):
     context.project_list = []
     context.section_list = []
     context.comment_list = []
+    context.task_list = []
     context.url = BASE_URL
     LOGGER.debug("Headers before feature: %s", context.headers)
     projects = get_all_projects(context)
@@ -63,6 +64,13 @@ def before_scenario(context, scenario):
         LOGGER.debug("Comment id created: %s", context.comment_id)
         context.comment_list.append(context.comment_id)
 
+    if "task_id" in scenario.tags:
+
+        response = create_task(context=context,  task_content="task x")
+        context.task_id = response["body"]["id"]
+        LOGGER.debug("Task id created: %s", context.task_id)
+        context.task_list.append(context.task_id)
+
 
 def after_scenario(context, scenario):
     print("after scenario")
@@ -79,6 +87,16 @@ def after_all(context):
         RestClient().send_request(method_name="delete", session=context.session,
                                   url=url, headers=HEADERS)
         LOGGER.info("Deleting project: %s", project)
+    for comment in context.comment_list:
+        url = f"{context.url}comments/{comment}"
+        RestClient().send_request(method_name="delete", session=context.session,
+                                  url=url, headers=HEADERS)
+        LOGGER.info("Deleting comment: %s", comment)
+    for task in context.task_list:
+        url = f"{context.url}tasks/{task}"
+        RestClient().send_request(method_name="delete", session=context.session,
+                                  url=url, headers=HEADERS)
+        LOGGER.info("Deleting task: %s", task)
 
 
 def create_project(context, name_project):
@@ -111,6 +129,16 @@ def create_comment(context, project_id, comment_name):
     }
     response = RestClient().send_request(method_name="post", session=context.session,
                                          url=context.url+"comments", headers=context.headers,
+                                         data=body_section)
+    return response
+
+def create_task(context, task_content):
+
+    body_section = {
+        "content": task_content
+    }
+    response = RestClient().send_request(method_name="post", session=context.session,
+                                         url=context.url+"tasks", headers=context.headers,
                                          data=body_section)
     return response
 
