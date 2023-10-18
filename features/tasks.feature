@@ -2,6 +2,19 @@
 
 Feature: Tasks
 
+  @project_id
+  Scenario:  Verify POST section creates the task correctly with project id
+      As a user I want to create a task from TODOIST API
+
+    Given I set the base url and headers
+    When I call to tasks endpoint using "POST" method using the "task data" as parameter
+    """
+    {
+       "content": "task created with project id 2",
+       "project_id": "project_id"
+    }
+    """
+    Then I receive a 200 status code in response
 
   Scenario:  Verify POST section creates the task correctly
       As a user I want to create a task from TODOIST API
@@ -11,20 +24,6 @@ Feature: Tasks
     """
     {
       "content": "task created"
-    }
-    """
-    Then I receive a 200 status code in response
-
-  @project_id
-  Scenario:  Verify POST section creates the comment correctly with project id
-      As a user I want to create a comment from TODOIST API
-
-    Given I set the base url and headers
-    When I call to comments endpoint using "POST" method using the "task data" as parameter
-    """
-    {
-      "project_id": "project_id",
-      "content": "task created with project id"
     }
     """
     Then I receive a 200 status code in response
