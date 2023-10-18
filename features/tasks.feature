@@ -36,10 +36,10 @@ Scenario:  Verify GET all tasks is returning all data correctly
     Then I receive a 200 status code in response
 
   @task_id
-  Scenario: Verify POST project endpoint updates a comment with the content provided
+  Scenario: Verify POST task endpoint updates a task with the content provided
 
     Given I set the base url and headers
-    When I call to taks endpoint using "POST" method using the "update task data" as parameter
+    When I call to tasks endpoint using "POST" method using the "update project data" as parameter
     """
     {
       "content": "task updated"
