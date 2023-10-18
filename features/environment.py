@@ -24,6 +24,7 @@ def before_all(context):
     context.headers = HEADERS
     context.project_list = []
     context.section_list = []
+    context.comment_list = []
     context.url = BASE_URL
     LOGGER.debug("Headers before feature: %s", context.headers)
     projects = get_all_projects(context)
@@ -54,6 +55,13 @@ def before_scenario(context, scenario):
         context.section_id = response["body"]["id"]
         LOGGER.debug("Section id created: %s", context.section_id)
         context.section_list.append(context.section_id)
+
+    if "comment_id" in scenario.tags:
+
+        response = create_comment(context=context, project_id=context.project_id_from_all, comment_name="comment x")
+        context.comment_id = response["body"]["id"]
+        LOGGER.debug("Comment id created: %s", context.comment_id)
+        context.comment_list.append(context.comment_id)
 
 
 def after_scenario(context, scenario):
@@ -92,6 +100,17 @@ def create_section(context, project_id, section_name):
     }
     response = RestClient().send_request(method_name="post", session=context.session,
                                          url=context.url+"sections", headers=context.headers,
+                                         data=body_section)
+    return response
+
+def create_comment(context, project_id, comment_name):
+
+    body_section = {
+        "project_id": project_id,
+        "content": comment_name
+    }
+    response = RestClient().send_request(method_name="post", session=context.session,
+                                         url=context.url+"comments", headers=context.headers,
                                          data=body_section)
     return response
 
