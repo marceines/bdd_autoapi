@@ -2,6 +2,13 @@
 
 Feature: Tasks
 
+Scenario:  Verify GET all tasks is returning all data correctly
+      As a user I want to GET the tasks from TODOIST API
+
+    Given I set the base url and headers
+    When I call to tasks endpoint using "GET" method using the "None" as parameter
+    Then I receive a 200 status code in response
+
   @project_id
   Scenario:  Verify POST section creates the task correctly with project id
       As a user I want to create a task from TODOIST API
