@@ -15,6 +15,20 @@ Feature: Tasks
     """
     Then I receive a 200 status code in response
 
+  @project_id
+  Scenario:  Verify POST section creates the comment correctly with project id
+      As a user I want to create a comment from TODOIST API
+
+    Given I set the base url and headers
+    When I call to comments endpoint using "POST" method using the "task data" as parameter
+    """
+    {
+      "project_id": "project_id",
+      "content": "task created with project id"
+    }
+    """
+    Then I receive a 200 status code in response
+
   @task_id
   Scenario: Verify POST project endpoint updates a comment with the content provided
 
