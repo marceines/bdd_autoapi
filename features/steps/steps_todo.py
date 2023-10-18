@@ -142,5 +142,3 @@ def get_data_by_feature(context):
 
     LOGGER.debug("Dictionary created: %s", dictionary)
     return dictionary
-
-

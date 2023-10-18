@@ -66,7 +66,7 @@ def before_scenario(context, scenario):
 
     if "task_id" in scenario.tags:
 
-        response = create_task(context=context,  task_content="task x")
+        response = create_task(context=context,  task_content="task x", project_id=None, section_id=None )
         context.task_id = response["body"]["id"]
         LOGGER.debug("Task id created: %s", context.task_id)
         context.task_list.append(context.task_id)
@@ -132,11 +132,15 @@ def create_comment(context, project_id, comment_name):
                                          data=body_section)
     return response
 
-def create_task(context, task_content):
+def create_task(context, task_content, project_id=None, section_id=None):
 
     body_section = {
         "content": task_content
     }
+    if project_id:
+        body_section["project_id"] = project_id
+    if section_id:
+        body_section["section_id"] = section_id
     response = RestClient().send_request(method_name="post", session=context.session,
                                          url=context.url+"tasks", headers=context.headers,
                                          data=body_section)
