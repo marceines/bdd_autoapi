@@ -42,7 +42,7 @@ Scenario:  Verify GET all tasks is returning all data correctly
     When I call to tasks endpoint using "POST" method using the "update project data" as parameter
     """
     {
-      "content": "task updated"
+      "content": "task updated 2"
     }
     """
     Then I receive a 200 status code in response
